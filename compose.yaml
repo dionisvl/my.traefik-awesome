@@ -1,0 +1,33 @@
+services:
+  traefik:
+    image: traefik:v3.3.3
+    command:
+      - "--providers.docker=true"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik_default
+
+  app1:
+    build: ./app1
+    expose:
+      - "8080"
+    networks:
+      - traefik_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.app1.loadbalancer.server.port=8080"
+
+  app2:
+    build: ./app2
+    expose:
+      - "8080"
+    networks:
+      - traefik_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.app2.loadbalancer.server.port=8080"
+
+networks:
+  traefik_default:
+    driver: bridge

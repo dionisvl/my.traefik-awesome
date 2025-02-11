@@ -1,0 +1,45 @@
+services:
+  traefik:
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN_BASE}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=${DASHBOARD_AUTH}"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+
+  app1:
+    labels:
+      - "traefik.http.routers.app1.tls.certresolver=myresolver"
+      - "traefik.http.routers.app1.entrypoints=websecure"
+      - "traefik.http.routers.app1.rule=Host(`${DOMAIN1}`)"
+    environment:
+      - DOMAIN=${DOMAIN1}
+
+  app2:
+    labels:
+      - "traefik.http.routers.app2.tls.certresolver=myresolver"
+      - "traefik.http.routers.app2.entrypoints=websecure"
+      - "traefik.http.routers.app2.rule=Host(`${DOMAIN2}`)"
+    environment:
+      - DOMAIN=${DOMAIN2}
+
+volumes:
+  letsencrypt:

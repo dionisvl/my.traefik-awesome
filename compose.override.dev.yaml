@@ -1,0 +1,31 @@
+services:
+  traefik:
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"  # Allow insecure API in development
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"  # Traefik Dashboard
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+
+  app1:
+    labels:
+      - "traefik.http.routers.app1.entrypoints=web"
+      - "traefik.http.routers.app1.rule=Host(`${DOMAIN1}`)"
+    environment:
+      - DOMAIN=${DOMAIN1}
+
+  app2:
+    labels:
+      - "traefik.http.routers.app2.entrypoints=web"
+      - "traefik.http.routers.app2.rule=Host(`${DOMAIN2}`)"
+    environment:
+      - DOMAIN=${DOMAIN2}
