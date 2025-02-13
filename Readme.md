@@ -5,20 +5,25 @@ with separate configurations for development and production environments.
 ## Project Structure
 ```
 .
-├── app1/
+├── app1/                      # Go application
 │   ├── Dockerfile
 │   ├── go.mod
 │   └── main.go
-├── app2/
+├── app2/                      # PHP application
 │   ├── Dockerfile
-│   ├── go.mod
-│   └── main.go
-├── compose.yaml
-├── compose.override.dev.yaml
-├── compose.override.prod.yaml
-├── .env
-├── .env.prod
-└── Makefile
+│   ├── nginx.conf            # Nginx configuration for PHP
+│   ├── supervisord.conf      # Supervisor config for PHP-FPM + Nginx
+│   └── index.php
+├── app3/                      # Static HTML application
+│   ├── Dockerfile
+│   ├── nginx.conf            # Nginx configuration for static files
+│   └── index.html
+├── compose.yaml              # Base compose configuration
+├── compose.override.dev.yaml # Development environment overrides
+├── compose.override.prod.yaml # Production environment overrides
+├── .env.example             # Example development environment variables
+├── .env.prod.example        # Example production environment variables
+└── Makefile                 # Build and deployment commands
 ```
 
 ## Features
