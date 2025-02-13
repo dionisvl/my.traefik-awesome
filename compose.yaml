@@ -14,19 +14,20 @@ services:
       - "8080"
     networks:
       - traefik_default
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.app1.loadbalancer.server.port=8080"
 
   app2:
     build: ./app2
     expose:
-      - "8080"
+      - "80"
     networks:
       - traefik_default
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.app2.loadbalancer.server.port=8080"
+
+  app3:
+    build: ./app3
+    expose:
+      - "80"
+    networks:
+      - traefik_default
 
 networks:
   traefik_default:

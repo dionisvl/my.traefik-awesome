@@ -33,13 +33,6 @@ services:
     environment:
       - DOMAIN=${DOMAIN1}
 
-  app2:
-    labels:
-      - "traefik.http.routers.app2.tls.certresolver=myresolver"
-      - "traefik.http.routers.app2.entrypoints=websecure"
-      - "traefik.http.routers.app2.rule=Host(`${DOMAIN2}`)"
-    environment:
-      - DOMAIN=${DOMAIN2}
 
 volumes:
   letsencrypt:
