@@ -26,6 +26,9 @@ services:
     build: ./app3
     expose:
       - "80"
+    volumes:
+      - "./app3/public:/usr/share/nginx/html:ro"
+      - "./app3/nginx.conf:/etc/nginx/conf.d/default.conf:rw"
     networks:
       - traefik_default
 
