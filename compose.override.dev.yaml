@@ -16,25 +16,33 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=web"
 
-  app1:
+  app-go:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.app1.loadbalancer.server.port=8080"
       - "traefik.http.routers.app1.entrypoints=web"
       - "traefik.http.routers.app1.rule=Host(`${DOMAIN1}`)"
 
-  app2:
-    build: ./app2
+
+  app-html:
+    build: app-html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.app3.loadbalancer.server.port=80"
+      - "traefik.http.routers.app3.entrypoints=web"
+      - "traefik.http.routers.app3.rule=Host(`${DOMAIN3}`)"
+
+  app-php-laravel:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.app2.loadbalancer.server.port=80"
       - "traefik.http.routers.app2.entrypoints=web"
       - "traefik.http.routers.app2.rule=Host(`${DOMAIN2}`)"
 
-  app3:
-    build: ./app3
+  app-php-simple:
+    build: app-php-simple
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.app3.loadbalancer.server.port=80"
-      - "traefik.http.routers.app3.entrypoints=web"
-      - "traefik.http.routers.app3.rule=Host(`${DOMAIN3}`)"
+      - "traefik.http.services.app4.loadbalancer.server.port=80"
+      - "traefik.http.routers.app4.entrypoints=web"
+      - "traefik.http.routers.app4.rule=Host(`${DOMAIN4}`)"

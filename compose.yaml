@@ -8,27 +8,36 @@ services:
     networks:
       - traefik_default
 
-  app1:
-    build: ./app1
+  app-go:
+    build: app-go
     expose:
       - "8080"
     networks:
       - traefik_default
 
-  app2:
-    build: ./app2
+  app-php-simple:
+    build: app-php-simple
     expose:
       - "80"
     networks:
       - traefik_default
 
-  app3:
-    build: ./app3
+  app-html:
+    build: app-html
     expose:
       - "80"
     volumes:
-      - "./app3/public:/usr/share/nginx/html:ro"
-      - "./app3/nginx.conf:/etc/nginx/conf.d/default.conf:rw"
+      - "./app-html/public:/usr/share/nginx/html:ro"
+      - "./app-html/nginx.conf:/etc/nginx/conf.d/default.conf:rw"
+    networks:
+      - traefik_default
+
+  app-php-laravel:
+    build: app-php-laravel
+    expose:
+      - "80"
+    volumes:
+      - ./app-php-laravel/api-laravel:/app:rw
     networks:
       - traefik_default
 
