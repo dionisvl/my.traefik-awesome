@@ -3,3 +3,6 @@ up:
 
 down:
 	docker compose down -t 0 --remove-orphans
+
+sh:
+	docker compose exec app-php-laravel sh

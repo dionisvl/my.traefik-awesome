@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     php83-intl \
     php83-phar \
     php83-posix \
+    php83-session \
     php83-shmop \
     php83-sockets \
     php83-sysvmsg \
