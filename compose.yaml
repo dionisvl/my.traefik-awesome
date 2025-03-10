@@ -19,6 +19,9 @@ services:
     build: app-php-simple
     expose:
       - "80"
+    env_file:
+      - path: ./.env
+        required: true
     networks:
       - traefik_default
 
@@ -38,6 +41,13 @@ services:
       - "80"
     volumes:
       - ./app-php-laravel/api-laravel:/app:rw
+    networks:
+      - traefik_default
+
+  app-rust-simple:
+    build: app-rust-simple
+    expose:
+      - "8080"
     networks:
       - traefik_default
 

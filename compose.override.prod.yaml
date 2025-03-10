@@ -62,5 +62,17 @@ services:
       - "traefik.http.routers.app3-secure.rule=Host(`${DOMAIN3}`)"
       - "traefik.http.routers.app3-secure.tls.certresolver=myresolver"
 
+  app5:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.app5.loadbalancer.server.port=8080"
+      # HTTP router
+      - "traefik.http.routers.app5-http.entrypoints=web"
+      - "traefik.http.routers.app5-http.rule=Host(`${DOMAIN5}`)"
+      # HTTPS router
+      - "traefik.http.routers.app5-secure.entrypoints=websecure"
+      - "traefik.http.routers.app5-secure.rule=Host(`${DOMAIN5}`)"
+      - "traefik.http.routers.app5-secure.tls.certresolver=myresolver"
+
 volumes:
   letsencrypt:
